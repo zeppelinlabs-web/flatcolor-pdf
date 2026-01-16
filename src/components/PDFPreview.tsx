@@ -13,6 +13,8 @@ interface PDFPreviewProps {
   pageSize: PageSize;
   primaryColor: string;
   secondaryColor: string;
+  headerText?: string;
+  footerText?: string;
 }
 
 const PDFPreview = ({
@@ -20,6 +22,8 @@ const PDFPreview = ({
   layout,
   primaryColor,
   secondaryColor,
+  headerText = "",
+  footerText = "",
 }: PDFPreviewProps) => {
   const getGridConfig = () => {
     switch (layout) {
@@ -63,10 +67,10 @@ const PDFPreview = ({
               style={{ backgroundColor: primaryColor }}
             >
               <span
-                className="text-xs font-medium"
+                className="text-xs font-medium truncate"
                 style={{ color: secondaryColor }}
               >
-                Image to PDF
+                {headerText || "Image to PDF"}
               </span>
               <span
                 className="text-xs font-mono"
@@ -114,6 +118,19 @@ const PDFPreview = ({
                   </div>
                 ))}
             </div>
+            {/* Footer */}
+            {footerText && (
+              <div
+                className="h-6 flex items-center px-4 text-xs border-t"
+                style={{
+                  backgroundColor: secondaryColor,
+                  borderColor: primaryColor,
+                  color: primaryColor,
+                }}
+              >
+                {footerText}
+              </div>
+            )}
           </div>
         ))}
       </div>

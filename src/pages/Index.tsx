@@ -12,6 +12,8 @@ import LayoutSelector, { type LayoutType } from "@/components/LayoutSelector";
 import PageSizeSelector, { type PageSize } from "@/components/PageSizeSelector";
 import PDFPreview from "@/components/PDFPreview";
 import HeaderFooterEditor, { type HeaderFooterConfig } from "@/components/HeaderFooterEditor";
+import MarginControls, { type MarginConfig } from "@/components/MarginControls";
+import ColorPresets, { type ColorPreset } from "@/components/ColorPresets";
 import { generatePDF, downloadPDF } from "@/lib/pdfGenerator";
 
 interface ImageFile {
@@ -27,6 +29,12 @@ const Index = () => {
   const [primaryColor, setPrimaryColor] = useState("#0284C7");
   const [secondaryColor, setSecondaryColor] = useState("#F0F9FF");
   const [showCaptions, setShowCaptions] = useState(true);
+  const [margins, setMargins] = useState<MarginConfig>({
+    top: 15,
+    right: 15,
+    bottom: 15,
+    left: 15,
+  });
   const [headerFooterConfig, setHeaderFooterConfig] = useState<HeaderFooterConfig>({
     headerText: "",
     footerText: "",
@@ -91,6 +99,7 @@ const Index = () => {
         showCaptions,
         headerText: headerFooterConfig.headerText,
         footerText: headerFooterConfig.footerText,
+        margins,
       });
       
       const timestamp = new Date().toISOString().slice(0, 10);
@@ -224,6 +233,18 @@ const Index = () => {
               </CardContent>
             </Card>
 
+            {/* Color Presets */}
+            <ColorPresets
+              primaryColor={primaryColor}
+              onApplyPreset={(preset: ColorPreset) => {
+                setPrimaryColor(preset.primary);
+                setSecondaryColor(preset.secondary);
+              }}
+            />
+
+            {/* Margin Controls */}
+            <MarginControls margins={margins} onChange={setMargins} />
+
             {/* Header & Footer Editor */}
             <HeaderFooterEditor
               config={headerFooterConfig}
@@ -242,6 +263,8 @@ const Index = () => {
                   pageSize={pageSize}
                   primaryColor={primaryColor}
                   secondaryColor={secondaryColor}
+                  headerText={headerFooterConfig.headerText}
+                  footerText={headerFooterConfig.footerText}
                 />
               </CardContent>
             </Card>
