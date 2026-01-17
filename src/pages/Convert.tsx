@@ -258,6 +258,8 @@ const Index = ({
                   secondaryColor={secondaryColor}
                   headerText={headerText}
                   footerText={footerText}
+                  showHeader={propShowHeader}
+                  showFooter={propShowFooter}
                 />
               </CardContent>
             </Card>
